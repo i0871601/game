@@ -1,32 +1,16 @@
 function handleInteraction(entity) {
     const type = entity.type.toLowerCase();
+    const { cellSize } = RENDER_MAP.createPerfectSquareBalancedGrid();
+    const el = document.getElementById(entity.id);
+    const entityIdx = LEVELS.dynamicEntities.findIndex(e => e.id === entity.id);
+    let nextName = '';
 
     switch (type) {
         case 'chest':
           console.log("Ви відкрили скриню!");
-          // 1. Шанс 1-5 (наприклад, з 10), що всередині книга
           const lootRoll = Math.floor(Math.random() * 10) + 1;
-          if (lootRoll <= 6) {
-            // 2. Перетворюємо скриню на книгу
-            // Знаходимо саме цю скриню в масиві dynamicEntities
-            const chestIdx = LEVELS.dynamicEntities.findIndex(e => e.id === entity.id);
-            // Змінюємо тип та ID, щоб спрацювали стилі книги
-            LEVELS.dynamicEntities[chestIdx].type = 'book';
-            LEVELS.dynamicEntities[chestIdx].id = 'book';
-            console.log("Ого! У скрині була книга.");
-
-          }
-          if (lootRoll >= 7){
-            const chestIdx = LEVELS.dynamicEntities.findIndex(e => e.id === entity.id);
-            if (chestIdx !== -1) {
-              // Змінюємо тип та ID, щоб спрацювали стилі книги
-              LEVELS.dynamicEntities[chestIdx].type = 'book_coin';
-              LEVELS.dynamicEntities[chestIdx].id = 'book_coin';
-              console.log("Ого! У скрині була книга та монети.");
-            }
-          }
-          // 3. Перемальовуємо сутності, щоб побачити зміни
-          renderEntities();
+          nextName = lootRoll <= 6 ? 'book' : 'book_coin';
+          renewal(el, entityIdx, nextName, cellSize, entity.x, entity.y);
           break;
 
         case 'npc':
@@ -37,18 +21,32 @@ function handleInteraction(entity) {
         case 'book':
             console.log("Ви читаєте стародавню книгу.");
             // Логіка: показати текст на екрані
-            readBook(entity);
+            cleaning(entity);
             break;
         case 'coin':
-            readBook(entity);
+            cleaning(entity);
             break;
         case 'book_coin':
-            readBook(entity);
+            cleaning(entity);
+            break;
+        case 'boss_room_closed':
+            LEVELS.map[entity.y][entity.x] = 0;
+            const mapElement = document.getElementById('Map');
+            const width = LEVELS.map[0].length;
+            const cellIdx = entity.y * width + entity.x;
+            const cell = mapElement.children[cellIdx];
+            nextName = 'path_portal';
+            applySpriteStyles(cell, nextName, cellSize);
+
+            nextName = 'boss_room_open';
+            renewal(el, entityIdx, nextName, cellSize, entity.x, entity.y);
+            const element = document.getElementById('boss_room_open');
+            element.style.animationDuration = `${(2+PLAYER.speed) * 100 / 1000}s`;
+            isFight = true;
             break;
         case 'exit':
             console.log("Перехід на наступний рівень...");
             const currentExit = LEVELS.entities.find(ent => ent.id === "exitPoint");
-
             // Запам'ятовуємо, де ми вийшли
             const nextStartCoords = { x: currentExit.x, y: currentExit.y };
             LEVELS.sub_level++;
@@ -59,14 +57,27 @@ function handleInteraction(entity) {
             console.log(`Взаємодія з ${type} не прописана.`);
     }
 }
-function readBook(entity) {
+//Оновлення сутностей
+function renewal(el, entityIdx, nextName, cellSize, x, y) {
+    if (entityIdx !== -1) {
+      LEVELS.dynamicEntities[entityIdx].type = nextName;
+      LEVELS.dynamicEntities[entityIdx].id = nextName;
+      el.id = nextName;
+      el.className = `entity ${nextName}`;
+      applySpriteStyles(el, nextName, cellSize, x, y);
+      console.log(`Ого! З'явилася ${nextName}.`);
+    }
+}
+//Очищення сутностей
+function cleaning(entity) {
     // 1. Видаляємо з логічного масиву
     LEVELS.dynamicEntities = LEVELS.dynamicEntities.filter(e => e.id !== entity.id);
 
     // 2. Видаляємо візуально
     const el = document.getElementById(entity.id);
     if (el) {
-      renderEntities()
+      el.remove();
+      //renderEntities()
     }
 
 }

@@ -98,7 +98,7 @@ function interaction(nx, ny){
 function highlightPossibleMoves() {
     clearMovementUI();
     const playerEnt = LEVELS.entities.find(e => e.id === "player");
-    if (!playerEnt || isMoving) return;
+    if (!playerEnt || isMoving || isFight) return;
 
     const neighbors = [
         { dx: 0, dy: -1, dir: 'up' },
@@ -129,9 +129,11 @@ function highlightPossibleMoves() {
                     const entityOnCell = [...LEVELS.entities, ...LEVELS.dynamicEntities]
                         .find(ent => ent.x === nextX && ent.y === nextY && ent.id !== "player");
 
+                    const interactionConfig = entityOnCell ? OBJECT_MAP.INTERACTIVES[entityOnCell.type.toLowerCase()] : null;
+                    const speedMultiplier = interactionConfig ? interactionConfig.speed : 1;
                     // 3. Якщо є — передаємо її в обробку ПІСЛЯ завершення анімації руху
                     if (entityOnCell) {
-                        const moveDuration = PLAYER.speed * 100;
+                        const moveDuration = PLAYER.speed * 100 * speedMultiplier; //помножити на speed
                         setTimeout(() => {
                             handleInteraction(entityOnCell);
                         }, moveDuration);
@@ -143,7 +145,7 @@ function highlightPossibleMoves() {
 }
 
 function movePlayer(dx, dy, direction) {
-    if (isMoving) return;
+    if (isMoving || isFight) return;
 
     const playerEnt = LEVELS.entities.find(e => e.id === "player");
     const nextX = playerEnt.x + dx;

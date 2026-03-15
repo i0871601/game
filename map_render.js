@@ -172,20 +172,40 @@ function findPositionForEntity(entity, path, maze) {
         ? candidates[Math.floor(Math.random() * candidates.length)]
         : { x: 1, y: 1 };
 }
-function applySpriteStyles(element, typeKey, cellSize) {
+function applySpriteStyles(element, typeKey, cellSize, x = null, y = null) {
     const styleConf = OBJECT_MAP.STYLES[typeKey.toLowerCase()];
     if (!styleConf) return;
 
     const tilesetImg = OBJECT_MAP.SET_LEVEL[LEVELS.levels] || OBJECT_MAP.SET_LEVEL[1];
     const totalWidth = OBJECT_MAP.LENGTH_STYLES * cellSize;
+    const startX = -(styleConf.col - 1) * cellSize;
 
+    // Базові стилі спрайту
     Object.assign(element.style, {
         backgroundImage: `url('${tilesetImg}')`,
         imageRendering: 'pixelated',
         backgroundRepeat: 'no-repeat',
         backgroundSize: `${totalWidth}px ${cellSize}px`,
-        backgroundPosition: `${-(styleConf.col - 1) * cellSize}px 0px`
+        backgroundPosition: `${startX}px 0px`,
+        width: `${cellSize}px`,
+        height: `${cellSize}px`
     });
+
+    // Якщо передані координати — додаємо абсолютне позиціонування
+    if (x !== null && y !== null) {
+        Object.assign(element.style, {
+            position: 'absolute',
+            left: `${x * cellSize}px`,
+            top: `${y * cellSize}px`
+        });
+    }
+
+    // Анімація (залишається як була)
+    if (styleConf.step) {
+        element.style.setProperty('--start-x', `${startX}px`);
+        element.style.setProperty('--end-x', `${startX - (styleConf.step * cellSize)}px`);
+        element.style.setProperty('--steps-count', styleConf.step);
+    }
 }
 function calculateEntitiesPositions() {
     const start = LEVELS.entities.find(e => e.id === "startPoint");
@@ -253,14 +273,13 @@ function renderEntities() {
 
     entElement.innerHTML = '';
 
-    // Обробка та малювання в одному циклі
     [...LEVELS.entities, ...LEVELS.dynamicEntities].forEach(ent => {
         if (ent.id === "player") return;
 
-        // Якщо позиція не задана — шукаємо її
+        // Пошук позиції, якщо вона ще не задана
         if (ent.x === -1) {
             const pos = findPositionForEntity(ent, path, LEVELS.map);
-            if (!pos) return; // Пропускаємо, якщо не знайшли місце
+            if (!pos) return;
             ent.x = pos.x; ent.y = pos.y;
         }
 
@@ -268,16 +287,9 @@ function renderEntities() {
         el.id = ent.id;
         el.className = `entity ${ent.type.toLowerCase()}`;
 
-        // Позиціонування
-        Object.assign(el.style, {
-            position: 'absolute',
-            left: `${ent.x * cellSize}px`,
-            top: `${ent.y * cellSize}px`,
-            width: `${cellSize}px`,
-            height: `${cellSize}px`
-        });
+        // Викликаємо оновлену функцію з координатами
+        applySpriteStyles(el, ent.type, cellSize, ent.x, ent.y);
 
-        applySpriteStyles(el, ent.type, cellSize);
         entElement.appendChild(el);
     });
 }

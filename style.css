@@ -34,7 +34,7 @@ main {
     width: 100%;
     height: 100%;
     pointer-events: none; /* Щоб кліки проходили крізь сутності */
-    z-index: 7;
+    /*z-index: 7;*/
 }
 #player {
     position: absolute;
@@ -88,4 +88,16 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.coin {
+    animation: sprite-animation 1s steps(var(--steps-count)) infinite;
+}
+#boss_room_open {
+  z-index: 11;
+  animation: sprite-animation steps(var(--steps-count)) 1 forwards;
+}
+/* Універсальна анімація для будь-яких спрайтів */
+@keyframes sprite-animation {
+    from { background-position-x: var(--start-x); }
+    to { background-position-x: var(--end-x); }
 }

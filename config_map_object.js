@@ -9,16 +9,18 @@ const OBJECT_MAP = {
         wall: { id: 'wall', col: 1 },
         path: { id: 'path', col: 2 },
         start: { id: 'start', col: 3 },
-        exit: { id: 'exit', col: 4 },
-        boss_room: { id: 'boss_room', col: 5},
-        coin: { id: 'coin', col: 6},
-        book: { id: 'book', col: 7}, // 5-idle, 6-active
-        book_coin: { id: 'book_coin', col: 8},
-        chest: { id: 'chest', col: 9 },
-        level_cell: { id: 'level_cell', col: 10 },
-        npc: { id: 'npc', col: 11 }
+        exit: { id: 'exit', col: 3 },
+        path_portal: { id: 'path_portal', col: 4 },
+        boss_room_closed: { id: 'boss_room_closed', col: 5},
+        boss_room_open: { id: 'boss_room_open', col: 6, step: 1 },
+        coin: { id: 'coin', col: 8, step: 4 },
+        book: { id: 'book', col: 12 }, // 5-idle, 6-active
+        book_coin: { id: 'book_coin', col: 13 },
+        chest: { id: 'chest', col: 14 },
+        level_cell: { id: 'level_cell', col: 15 },
+        npc: { id: 'npc', col: 16 }
     },
-    LENGTH_STYLES: 11,
+    LENGTH_STYLES: 16,
 
     // Логіка колізій (Solid = твердий)
     PRIORITY_STEP: {
@@ -26,22 +28,25 @@ const OBJECT_MAP = {
         1: { solid: true }, // Стіна
         'start': {solid: false },
         'exit': { solid: false },
-        'boss_room': { solid: true },
+        'path_portal': { solid: false },
+        'boss_room_closed': { solid: false },
+        'boss_room_open': {solid: false },
         'coin': { solid: false },
         'book': { solid: false },
         'book_coin': { solid: false },
         'chest': { solid: true },
+        'level_cell': { solid: false },
         'npc': { solid: true }
     },
 
     // Логіка взаємодії
     INTERACTIVES: {
-        'exit': { priority: 1 },
-        'boos_room': {priority: 2 },
-        'coin': { priority: 3 },
-        'npc': { priority: 4 },
-        'book': { priority: 5 },
-        'book_coin': {priority: 6},
-        'chest': { priority: 7 }
-    },
+        'exit': { speed: 1 },
+        'boss_room_closed': { speed: 0 },
+        'coin': { speed: 1 },
+        'npc': { speed: 1 },
+        'book': { speed: 1 },
+        'book_coin': { speed: 1 },
+        'chest': { speed: 1 }
+    }
 };

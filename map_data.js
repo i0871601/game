@@ -20,7 +20,7 @@ function generateDynamicLoot() {
       const exitRoll = Math.floor(Math.random() * 10) + 1;
       if (exitRoll <= 5) {
         const isBoss = Math.random() > 0.5;
-        entities.push({ id: "bossRoom", type: "boss_room", secret: "true", x: -1, y: -1});
+        entities.push({ id: "bossRoom", type: "boss_room_closed", secret: "true", x: -1, y: -1});
       }
     }
     // 1. Логіка NPC: Кожен 3-й рівень
@@ -60,7 +60,7 @@ function generateDynamicLoot() {
 
     itemsToCreate.forEach((type, index) => {
         entities.push({
-            id: `loot_${type}_${index}`,
+            id: `${type}_${index}`,
             type: type,
             x: -1,
             y: -1

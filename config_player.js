@@ -1,7 +1,7 @@
 const PLAYER = {
   id: "PLAYER",
   label: "Дослідник",
-  sprite: "Sprite-0.1.png",
+  sprite: "Sprite-0.2.png",
   baseSize: 16,
   speed: 3,
   hp: 100
