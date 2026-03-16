@@ -89,14 +89,23 @@ main {
     justify-content: center;
     align-items: center;
 }
-.coin {
+
+.entity.coin, #activ_mimic {
     animation: sprite-animation 1s steps(var(--steps-count)) infinite;
 }
-#boss_room_open {
+.shadow-layer {
+  position: absolute;
+  z-index: 9;
+}
+#attack_mimic{
+  z-index: 11;
+}
+#secret_room_open.visible, #attack_mimic.visible {
   z-index: 11;
   animation: sprite-animation steps(var(--steps-count)) 1 forwards;
 }
-/* Універсальна анімація для будь-яких спрайтів */
+
+/* Оновлена анімація */
 @keyframes sprite-animation {
     from { background-position-x: var(--start-x); }
     to { background-position-x: var(--end-x); }

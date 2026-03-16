@@ -146,12 +146,12 @@ function findPositionForEntity(entity, path, maze) {
         }
     }
     // 3. Спеціальна логіка для BOSS або Секретів
-    if (entity.secret || entity.id === "bossRoom") {
+    if (entity.secret || entity.id === "secret_room") {
         if (deadEnds.length > 0) {
             let pos = deadEnds[Math.floor(Math.random() * deadEnds.length)];
             const width = maze[0].length, height = maze.length;
 
-            if (entity.id === "bossRoom") {
+            if (entity.id === "secret_room") {
                 if (pos.x === 1) { maze[pos.y][0] = 0; pos.x = 0; }
                 else if (pos.x === width - 2) { maze[pos.y][width - 1] = 0; pos.x = width - 1; }
                 else if (pos.y === 1) { maze[0][pos.x] = 0; pos.y = 0; }

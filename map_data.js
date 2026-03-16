@@ -18,9 +18,9 @@ function generateDynamicLoot() {
     entities.push({ id: "cellLevels", type: "level_cell", distance: 4, x: -1, y: -1 });
     if (LEVELS.sub_level >0){//% 5 === 0) {
       const exitRoll = Math.floor(Math.random() * 10) + 1;
-      if (exitRoll <= 5) {
+      if (exitRoll <= 10) {
         const isBoss = Math.random() > 0.5;
-        entities.push({ id: "bossRoom", type: "boss_room_closed", secret: "true", x: -1, y: -1});
+        entities.push({ id: "secret_room", type: "secret_room", secret: "true", x: -1, y: -1});
       }
     }
     // 1. Логіка NPC: Кожен 3-й рівень
@@ -32,7 +32,7 @@ function generateDynamicLoot() {
     const countRoll = Math.floor(Math.random() * 10) + 1;
     let itemsToCreate = [];
 
-    if (countRoll >= 1 && countRoll <= 6) {
+    if (countRoll >= 1 && countRoll <= 6 ) {
       // ОДИН ОБ'ЄКТ
       const typeRoll = Math.floor(Math.random() * 10) + 1;
       if (typeRoll <= 8) itemsToCreate.push("coin");
@@ -55,7 +55,9 @@ function generateDynamicLoot() {
           itemsToCreate.push("coin");
       }
     } else if (countRoll === 10) {
-        itemsToCreate.push("chest");
+        const chestRoll = Math.floor(Math.random()*10)+1;
+        nextId = chestRoll <= 5 ? 'chest' : 'mimic';
+        itemsToCreate.push(nextId);
     }
 
     itemsToCreate.forEach((type, index) => {
