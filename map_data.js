@@ -32,13 +32,13 @@ function generateDynamicLoot() {
     const countRoll = Math.floor(Math.random() * 10) + 1;
     let itemsToCreate = [];
 
-    if (countRoll >= 1 && countRoll <= 6 ) {
+    if (countRoll >= 5 && countRoll <= 7 ) {
       // ОДИН ОБ'ЄКТ
       const typeRoll = Math.floor(Math.random() * 10) + 1;
       if (typeRoll <= 8) itemsToCreate.push("coin");
       else itemsToCreate.push("book");
 
-    } else if (countRoll >= 7 && countRoll <= 9) {
+    } else if (countRoll >= 8 && countRoll <= 9) {
       // ДВА ОБ'ЄКТИ
       let firstItem = "";
       const firstRoll = Math.floor(Math.random() * 10) + 1;
@@ -83,7 +83,7 @@ const RENDER_MAP = {
 
         // Збільшив діапазон для кращого вигляду
         const minCells = 5;
-        const maxCells = 9;
+        const maxCells = 5;
 
         let bestX = 1, bestY = 1;
         let minDifference = Infinity;
