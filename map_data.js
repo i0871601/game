@@ -17,11 +17,7 @@ function generateDynamicLoot() {
     // Додаємо обов'язковий датчик рівня (cellLevels), про який ви згадували
     entities.push({ id: "cellLevels", type: "level_cell", distance: 4, x: -1, y: -1 });
     if (LEVELS.sub_level % 5 === 0) {
-      const exitRoll = Math.floor(Math.random() * 10) + 1;
-      if (exitRoll <= 10) {
-        const isBoss = Math.random() > 0.5;
-        entities.push({ id: "secret_room", type: "secret_room", secret: "true", x: -1, y: -1});
-      }
+      entities.push({ id: "secret_room", type: "secret_room", secret: "true", x: -1, y: -1});
     }
     // 1. Логіка NPC: Кожен 3-й рівень
     if (LEVELS.sub_level % 4 === 0) {
