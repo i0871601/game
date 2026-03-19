@@ -298,6 +298,8 @@ function initLevel(nextStartCoords = null) {
     // 1. Створюємо мапу та "дірки" для входу/виходу
     if (!generateMazeWithRetries(nextStartCoords)) return;
     // 2. Створюємо предмети (скидаємо їх старі позиції до -1)
+    //перевяряємо чи є умова загрузки рівня лабіринту чи певну мапу
+    //зміну ід отримуємо з вказаним типом, чи dung- лабіринт, чи boss - комната боса, чи mimic - комната в яку втік мімік, чи wild - дикий бос
     LEVELS.dynamicEntities = generateDynamicLoot();
     // 3. РОЗРАХУНОК: Бос пробиває стіну тут, вороги шукають тупики
     calculateEntitiesPositions();
