@@ -14,11 +14,13 @@ let LEVELS = {
 function generateDynamicLoot() {
     let entities = [];
 
+    //якщо sub_level === 1 isDragon = false
     // Додаємо обов'язковий датчик рівня (cellLevels), про який ви згадували
     entities.push({ id: "cellLevels", type: "level_cell", distance: 4, x: -1, y: -1 });
-    if (LEVELS.sub_level % 5 === 0) {
+    if (LEVELS.sub_level % 5 === 0) {//або під левел ділиться на 5 або якщо isDragon = true
+        //створює не секрет рум, а next_level_up
       entities.push({ id: "secret_room", type: "secret_room", secret: "true", x: -1, y: -1});
-    }
+    }//окремий рандом для визначення чи буде дракон перекривати шлях, ставить зміну isDragon = true
     // 1. Логіка NPC: Кожен 4-й рівень
     if (LEVELS.sub_level % 4 === 0) {
         entities.push({ id: "npc_special", type: "npc", x: -1, y: -1 });
@@ -35,6 +37,7 @@ function generateDynamicLoot() {
 
     } else if (countRoll >= 7 && countRoll <= 9) {
       // ДВА ОБ'ЄКТИ
+      //якщо два обєкта то 10 % що буде створено блок дебав
       let firstItem = "";
       const firstRoll = Math.floor(Math.random() * 10) + 1;
       // Визначаємо перший
