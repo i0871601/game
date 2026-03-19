@@ -19,10 +19,9 @@ function generateDynamicLoot() {
     if (LEVELS.sub_level % 5 === 0) {
       entities.push({ id: "secret_room", type: "secret_room", secret: "true", x: -1, y: -1});
     }
-    // 1. Логіка NPC: Кожен 3-й рівень
+    // 1. Логіка NPC: Кожен 4-й рівень
     if (LEVELS.sub_level % 4 === 0) {
-      const npcRoll = Math.floor(Math.random() * 10) + 1;
-      if (npcRoll >= 7) entities.push({ id: "npc_special", type: "npc", x: -1, y: -1 });
+        entities.push({ id: "npc_special", type: "npc", x: -1, y: -1 });
     }
     // 2. Рандом предметів
     const countRoll = Math.floor(Math.random() * 10) + 1;
