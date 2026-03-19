@@ -16,7 +16,7 @@ function generateDynamicLoot() {
 
     // Додаємо обов'язковий датчик рівня (cellLevels), про який ви згадували
     entities.push({ id: "cellLevels", type: "level_cell", distance: 4, x: -1, y: -1 });
-    if (LEVELS.sub_level >0){//% 5 === 0) {
+    if (LEVELS.sub_level % 5 === 0) {
       const exitRoll = Math.floor(Math.random() * 10) + 1;
       if (exitRoll <= 10) {
         const isBoss = Math.random() > 0.5;
@@ -24,7 +24,7 @@ function generateDynamicLoot() {
       }
     }
     // 1. Логіка NPC: Кожен 3-й рівень
-    if (LEVELS.sub_level % 100 === 0) {
+    if (LEVELS.sub_level % 4 === 0) {
       const npcRoll = Math.floor(Math.random() * 10) + 1;
       if (npcRoll >= 7) entities.push({ id: "npc_special", type: "npc", x: -1, y: -1 });
     }
@@ -32,13 +32,13 @@ function generateDynamicLoot() {
     const countRoll = Math.floor(Math.random() * 10) + 1;
     let itemsToCreate = [];
 
-    if (countRoll >= 5 && countRoll <= 7 ) {
+    if (countRoll >= 4 && countRoll <= 6 ) {
       // ОДИН ОБ'ЄКТ
       const typeRoll = Math.floor(Math.random() * 10) + 1;
-      if (typeRoll <= 8) itemsToCreate.push("coin");
+      if (typeRoll <= 6) itemsToCreate.push("coin");
       else itemsToCreate.push("book");
 
-    } else if (countRoll >= 8 && countRoll <= 9) {
+    } else if (countRoll >= 7 && countRoll <= 9) {
       // ДВА ОБ'ЄКТИ
       let firstItem = "";
       const firstRoll = Math.floor(Math.random() * 10) + 1;
@@ -49,8 +49,8 @@ function generateDynamicLoot() {
       // Визначаємо другий залежно від першого
       const secondRoll = Math.floor(Math.random() * 10) + 1;
       if (firstItem === "coin") {
-          if (secondRoll <= 6) itemsToCreate.push("coin");
-          else itemsToCreate.push("book");
+          if (secondRoll <= 5) itemsToCreate.push("coin");
+          else {itemsToCreate.push("book");}; //добавити блок прокляття};
       } else {
           itemsToCreate.push("coin");
       }
