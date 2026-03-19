@@ -20,7 +20,9 @@ function generateDynamicLoot() {
     if (LEVELS.sub_level % 5 === 0) {//або під левел ділиться на 5 або якщо isDragon = true
         //створює не секрет рум, а next_level_up
       entities.push({ id: "secret_room", type: "secret_room", secret: "true", x: -1, y: -1});
-    }//окремий рандом для визначення чи буде дракон перекривати шлях, ставить зміну isDragon = true
+    }
+    //перевяряє isDragon = true то стає false
+    //окремий рандом для визначення чи буде дракон перекривати шлях, ставить зміну isDragon = true
     // 1. Логіка NPC: Кожен 4-й рівень
     if (LEVELS.sub_level % 4 === 0) {
         entities.push({ id: "npc_special", type: "npc", x: -1, y: -1 });
