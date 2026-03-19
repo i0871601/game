@@ -38,7 +38,7 @@ const OBJECT_MAP = {
         'chest': { solid: true },
         'mimic': { solid: true },
         'level_cell': { solid: false },
-        'npc': { solid: true }
+        'npc': { solid: false }
     },
 
     // Логіка взаємодії
