@@ -32,9 +32,24 @@ function spawnPlayer(startX, startY) {
     toggleAnimation(false, initialDir);
 
     // Початкове підсвічування після спавну
+    updateVisibilityMask();
     highlightPossibleMoves();
 }
+function updateVisibilityMask(){
+    const shadowEl = document.getElementById('Shadow');
+    const playerEl = document.getElementById('player');
+    
+    const playerRect = playerEl.getBoundingClientRect();
+    const mapRect = document.getElementById('Map');
+    
+    const centerX = playerEl.offsetLeft + (playerEl.offsetWidth / 2);
+    const centerY = playerEl.offsetTop + (playerEl.offsetHeight / 2);
 
+    const linhtRadius = 150;
+    const maskStyle = `radial-gradient(circle ${lightRadius}px at ${centerX}px ${centerY}px, transparent 10%, black 80%)`;
+
+    shadowEl.style.maskImage = maskStyle;
+}
 function updatePlayerStylePosition(x, y, cellSize) {
     const playerEl = document.getElementById('player');
     playerEl.style.left = (x * cellSize) + 'px';
