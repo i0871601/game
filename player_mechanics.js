@@ -45,7 +45,7 @@ function updateVisibilityMask() {
     const centerX = playerEl.offsetLeft + (playerEl.offsetWidth / 2);
     const centerY = playerEl.offsetTop + (playerEl.offsetHeight / 2);
 
-    const lightRadius = 3 * cellSize; // Зменшив для більшої атмосферності
+    const lightRadius = 2 * cellSize; // Зменшив для більшої атмосферності
     const maskStyle = `radial-gradient(circle ${lightRadius}px at ${centerX}px ${centerY}px, transparent 10%, black 80%)`;
 
     shadowEl.style.webkitMaskImage = maskStyle;
