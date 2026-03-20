@@ -202,12 +202,12 @@ function movePlayer(dx, dy, dir) {
 
         setTimeout(() => {
             isMoving = false;
-            toggleAnimation(false);
+            toggleAnimation(false, dir);
             setTimeout(() => {
                 highlightPossibleMoves();
             }, 50);
         }, moveDuration);
     } else {
-        toggleAnimation(false, direction);
+        toggleAnimation(false, dir);
     }
 }
