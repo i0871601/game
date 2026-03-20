@@ -174,13 +174,13 @@ function movePlayer(dx, dy, dir) {
         playerEnt.y = nextY;
 
         const { cellSize } = RENDER_MAP.createPerfectSquareBalancedGrid();
-        const moveDuration = 1000 / PLAYER.speed;
+        const moveDuration = 100*PLAYER.speed;
         const playerEl = document.getElementById('player');
 
         // Налаштовуємо плавний рух
         playerEl.style.transition = `left ${moveDuration}ms linear, top ${moveDuration}ms linear`;
-        updatePlayerStylePosition(playerEnt.x, playerEnt.y, cellSize);
         toggleAnimation(true, dir);
+        updatePlayerStylePosition(playerEnt.x, playerEnt.y, cellSize);
 
         // --- ЦЕЙ БЛОК РОБИТЬ СВІТЛО ПЛАВНИМ ---
         let startTime = null;
