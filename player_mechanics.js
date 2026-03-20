@@ -174,28 +174,29 @@ function movePlayer(dx, dy, direction) {
         playerEnt.y = nextY;
 
         const { cellSize } = RENDER_MAP.createPerfectSquareBalancedGrid();
-        const moveDuration = PLAYER.speed * 100;
+        // PLAYER.speed зазвичай 3-5, тому 100 * speed = 300-500мс
+        const moveDuration = 1000 / PLAYER.speed; 
         const playerEl = document.getElementById('player');
+        const shadowEl = document.getElementById('Shadow');
 
-        // ВАЖЛИВО: Налаштування швидкості анімації спрайту
-        playerEl.style.transition = `left ${moveDuration}ms linear, top ${moveDuration}ms linear`;
-        playerEl.style.animationDuration = `${moveDuration / 1000}s`;
+        // 1. Встановлюємо час анімації в JS для синхронізації
+        const transitionStyle = `left ${moveDuration}ms linear, top ${moveDuration}ms linear`;
+        playerEl.style.transition = transitionStyle;
+        shadowEl.style.transition = `-webkit-mask-image ${moveDuration}ms linear, mask-image ${moveDuration}ms linear`;
 
-        updatePlayerStylePosition(playerEnt.x, playerEnt.y, cellSize);
-        updateVisibilityMask()
-        requestAnimationFrame(() => {
-                    updateVisibilityMask()
-                });
+        // 2. Запускаємо анімацію ніг (спрайту)
         toggleAnimation(true, direction);
+
+        // 3. Оновлюємо позицію (CSS transition підхопить це)
+        updatePlayerStylePosition(playerEnt.x, playerEnt.y, cellSize);
+        
+        // 4. Оновлюємо маску (вона теж плавно перетече завдяки transition в CSS)
+        updateVisibilityMask();
 
         setTimeout(() => {
             isMoving = false;
-
-            // Зупиняємо анімацію ніг
-            const hasKeys = Object.keys(keysPressed).length > 0;
-            if (!hasKeys) toggleAnimation(false);
-
-            // Робимо паузу 50мс перед появою пунктиру для кращого візуального ефекту
+            toggleAnimation(false);
+            
             setTimeout(() => {
                 highlightPossibleMoves();
             }, 50);
