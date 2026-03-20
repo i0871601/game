@@ -159,7 +159,7 @@ function highlightPossibleMoves() {
     });
 }
 
-function movePlayer(dx, dy, direction) {
+function movePlayer(dx, dy, dir) {
     if (isMoving || isFight) return;
 
     const playerEnt = LEVELS.entities.find(e => e.id === "player");
@@ -174,34 +174,37 @@ function movePlayer(dx, dy, direction) {
         playerEnt.y = nextY;
 
         const { cellSize } = RENDER_MAP.createPerfectSquareBalancedGrid();
-        // PLAYER.speed зазвичай 3-5, тому 100 * speed = 300-500мс
-        const moveDuration = 1000 / PLAYER.speed; 
+        const moveDuration = 1000 / PLAYER.speed;
         const playerEl = document.getElementById('player');
-        const shadowEl = document.getElementById('Shadow');
 
-        // 1. Встановлюємо час анімації в JS для синхронізації
-        const transitionStyle = `left ${moveDuration}ms linear, top ${moveDuration}ms linear`;
-        playerEl.style.transition = transitionStyle;
-        shadowEl.style.transition = `-webkit-mask-image ${moveDuration}ms linear, mask-image ${moveDuration}ms linear`;
-
-        // 2. Запускаємо анімацію ніг (спрайту)
-        toggleAnimation(true, direction);
-
-        // 3. Оновлюємо позицію (CSS transition підхопить це)
+        // Налаштовуємо плавний рух
+        playerEl.style.transition = `left ${moveDuration}ms linear, top ${moveDuration}ms linear`;
         updatePlayerStylePosition(playerEnt.x, playerEnt.y, cellSize);
-        
-        // 4. Оновлюємо маску (вона теж плавно перетече завдяки transition в CSS)
-        updateVisibilityMask();
+        toggleAnimation(true, dir);
+
+        // --- ЦЕЙ БЛОК РОБИТЬ СВІТЛО ПЛАВНИМ ---
+        let startTime = null;
+        function animateMask(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const progress = timestamp - startTime;
+
+            updateVisibilityMask(); // Постійно перераховуємо маску за позицією гравця
+
+            if (progress < moveDuration) {
+                requestAnimationFrame(animateMask);
+            } else {
+                updateVisibilityMask(); // Фінальна позиція
+            }
+        }
+        requestAnimationFrame(animateMask);
+        // --------------------------------------
 
         setTimeout(() => {
             isMoving = false;
             toggleAnimation(false);
-            
             setTimeout(() => {
                 highlightPossibleMoves();
             }, 50);
         }, moveDuration);
-    } else {
-        toggleAnimation(false, direction);
     }
 }
