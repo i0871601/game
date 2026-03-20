@@ -174,11 +174,12 @@ function movePlayer(dx, dy, dir) {
         playerEnt.y = nextY;
 
         const { cellSize } = RENDER_MAP.createPerfectSquareBalancedGrid();
-        const moveDuration = 100*PLAYER.speed;
+        const moveDuration = PLAYER.speed * 100;
         const playerEl = document.getElementById('player');
 
         // Налаштовуємо плавний рух
         playerEl.style.transition = `left ${moveDuration}ms linear, top ${moveDuration}ms linear`;
+        playerEl.style.animationDuration = `${moveDuration / 1000}s`;
         toggleAnimation(true, dir);
         updatePlayerStylePosition(playerEnt.x, playerEnt.y, cellSize);
 
