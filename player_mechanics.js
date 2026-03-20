@@ -45,7 +45,7 @@ function updateVisibilityMask(){
     const centerX = playerEl.offsetLeft + (playerEl.offsetWidth / 2);
     const centerY = playerEl.offsetTop + (playerEl.offsetHeight / 2);
 
-    const lightRadius = 150;
+    const lightRadius = 300;
     const maskStyle = `radial-gradient(circle ${lightRadius}px at ${centerX}px ${centerY}px, transparent 10%, black 80%)`;
 
     shadowEl.style.maskImage = maskStyle;
@@ -182,10 +182,11 @@ function movePlayer(dx, dy, direction) {
         playerEl.style.animationDuration = `${moveDuration / 1000}s`;
 
         updatePlayerStylePosition(playerEnt.x, playerEnt.y, cellSize);
+        updateVisibilityMask()
+        requestAnimationFrame(() => {
+                    updateVisibilityMask()
+                });
         toggleAnimation(true, direction);
-
-        // Оновлюємо маску під час руху, щоб вона "пливла" за гравцем
-        if (typeof updateVisibilityMask === 'function') updateVisibilityMask();
 
         setTimeout(() => {
             isMoving = false;
