@@ -36,6 +36,7 @@ function spawnPlayer(startX, startY) {
     highlightPossibleMoves();
 }
 function updateVisibilityMask() {
+    const {cellSize} = RENDER_MAP.createPerfectSquareBalancedGrid();
     const shadowEl = document.getElementById('Shadow');
     const playerEl = document.getElementById('player');
     if (!shadowEl || !playerEl) return;
@@ -44,7 +45,7 @@ function updateVisibilityMask() {
     const centerX = playerEl.offsetLeft + (playerEl.offsetWidth / 2);
     const centerY = playerEl.offsetTop + (playerEl.offsetHeight / 2);
 
-    const lightRadius = 300; // Зменшив для більшої атмосферності
+    const lightRadius = 3 * cellSize; // Зменшив для більшої атмосферності
     const maskStyle = `radial-gradient(circle ${lightRadius}px at ${centerX}px ${centerY}px, transparent 10%, black 80%)`;
 
     shadowEl.style.webkitMaskImage = maskStyle;
