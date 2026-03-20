@@ -196,6 +196,7 @@ function movePlayer(dx, dy, dir) {
                 updateVisibilityMask(); // Фінальна позиція
             }
         }
+        updatePlayerStylePosition(playerEnt.x, playerEnt.y, cellSize);
         requestAnimationFrame(animateMask);
         // --------------------------------------
 
@@ -206,5 +207,7 @@ function movePlayer(dx, dy, dir) {
                 highlightPossibleMoves();
             }, 50);
         }, moveDuration);
+    } else {
+        toggleAnimation(false, direction);
     }
 }
