@@ -28,7 +28,7 @@ main {
   background-color: var(--fon-color);
   z-index: 20;
   pointer-events: none;
-  transition: mask-image 0.1s linear;
+  transition:: -webkit-mask-image 0.3s linear, mask-image 0.1s linear;
 }
 #Map {
     display: grid;
