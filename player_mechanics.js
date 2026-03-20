@@ -35,19 +35,19 @@ function spawnPlayer(startX, startY) {
     updateVisibilityMask();
     highlightPossibleMoves();
 }
-function updateVisibilityMask(){
+function updateVisibilityMask() {
     const shadowEl = document.getElementById('Shadow');
     const playerEl = document.getElementById('player');
-    
-    const playerRect = playerEl.getBoundingClientRect();
-    const mapRect = document.getElementById('Map');
-    
+    if (!shadowEl || !playerEl) return;
+
+    // Використовуємо offset методи для точності відносно батьківського контейнера
     const centerX = playerEl.offsetLeft + (playerEl.offsetWidth / 2);
     const centerY = playerEl.offsetTop + (playerEl.offsetHeight / 2);
 
-    const lightRadius = 300;
+    const lightRadius = 150; // Зменшив для більшої атмосферності
     const maskStyle = `radial-gradient(circle ${lightRadius}px at ${centerX}px ${centerY}px, transparent 10%, black 80%)`;
 
+    shadowEl.style.webkitMaskImage = maskStyle;
     shadowEl.style.maskImage = maskStyle;
 }
 function updatePlayerStylePosition(x, y, cellSize) {
