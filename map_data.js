@@ -82,8 +82,8 @@ const RENDER_MAP = {
         const ratio = width / height;
 
         // Збільшив діапазон для кращого вигляду
-        const minCells = 11;
-        const maxCells = 11;
+        const minCells = 9;
+        const maxCells = 9;
 
         let bestX = 1, bestY = 1;
         let minDifference = Infinity;
